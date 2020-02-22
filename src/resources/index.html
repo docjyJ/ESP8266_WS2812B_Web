@@ -3,16 +3,72 @@
 <head>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
-    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
+    <section id="main-preset">
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#" class="brand-logo center">Led Strip Controller</a>
+                </div>
+            </nav>
+        </div>
+        <div class="container row">
+            <section-aimation
+                    v-for="anim in animationList"
+                    v-bind:key="anim.id"
+                    v-bind:anim="anim">
+            </section-aimation>
+        </div>
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Icons made by</h5>
+                        <ul>
+                            <li></li>
+                            <li><a class="grey-text text-lighten-3" href="https://www.flaticon.com/authors/freepik">Freepik</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://www.flaticon.com/authors/alfredo-hernandez">Alfredo Hernandez</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://www.flaticon.com/">From Flaticon</a></li>
+                        </ul>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Library</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="https://materializecss.com/">Materialize</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://material.io/resources/icons/">Material Design Icons</a></li>
+                            <li><a class="grey-text text-lighten-3" href="https://vuejs.org/">Vue.js</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    Project by <a class="grey-text text-lighten-4" href="https://github.com/Shinyhero36">Shinyhero36</a> and <a class="grey-text text-lighten-4" href="https://github.com/docjyJ">docjyJ</a>
+                    <a class="grey-text text-lighten-4 right" href="https://github.com/docjyJ/ESP8266_WS2812B_Web">GitHub</a>
+                </div>
+            </div>
+        </footer>
+        <div id="popup">
+            <popup-aimation
+                    v-for="anim in animationList"
+                    v-bind:key="anim.id"
+                    v-bind:anim="anim">
+            </popup-aimation>
+        </div>
+    </section>
 
-<!--JavaScript at end of body for optimized loading-->
-<script type="text/javascript" src="js/materialize.min.js"></script>
+
+    <!--JavaScript at end of body for optimized loading-->
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
