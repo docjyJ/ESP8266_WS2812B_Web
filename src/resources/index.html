@@ -5,13 +5,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
-    <section id="main-preset">
+    <section class="main">
         <div class="navbar-fixed">
             <nav>
                 <div class="nav-wrapper">
@@ -20,11 +19,17 @@
             </nav>
         </div>
         <div class="container row">
-            <section-aimation
-                    v-for="anim in animationList"
-                    v-bind:key="anim.id"
-                    v-bind:anim="anim">
-            </section-aimation>
+            <div class="col s6" v-for="anim in animationList" :key="anim.id">
+                <div class="card waves-effect waves-block waves-light">
+                    <div class="card-image">
+                        <img :src="'svg/' + anim.identifier + '.svg'">
+                        <a class="btn-floating btn-large halfway-fab waves-effect waves-light red" :href="'javascript:openPopup(\'' + anim.identifier + '\')'"><i class="material-icons">add</i></a>
+                    </div>
+                    <div class="card-content">
+                        <span class="card-title">{{ anim.title }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
         <footer class="page-footer">
             <div class="container">
@@ -56,11 +61,24 @@
             </div>
         </footer>
         <div id="popup">
-            <popup-aimation
-                    v-for="anim in animationList"
-                    v-bind:key="anim.id"
-                    v-bind:anim="anim">
-            </popup-aimation>
+            <div v-for="anim in animationList" :key="anim.id" :id="'animation-' + anim.identifier" class="modal modal-fixed-footer">
+                <form :id="'form-animation-' + anim.identifier">
+                    <div class="modal-content">
+                        <h4>{{ anim.title }}</h4>
+                        <p>{{ anim.description }}</p>
+                        <div v-for="item in anim.form">
+                            <p class="range-field" v-if="item.type == 'percent'">
+                                <input type="range" :name="item.name" :id="item.name" min="0" max="100" />
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="modal-close waves-effect waves-green btn-flat">Apply</button>
+                        <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                    </div>
+                    <input type="hidden" name="animation" :value="anim.identifier">
+                </form>
+            </div>
         </div>
     </section>
 
