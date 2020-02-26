@@ -1,36 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Color Palette HSV -->
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+    <!-- Fonts Imports -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        .tabs-content.carousel.carousel-slider{
+            height: auto !important;
+        }
+
+        .tabs-content.carousel.carousel-slider .carousel-item.active {
+            position: unset;
+        }
+    </style>
+    <title>Led Strip Controller</title>
 </head>
 
 <body>
-    <section class="main">
-        <div class="navbar-fixed">
-            <nav>
-                <div class="nav-wrapper">
-                    <a href="#" class="brand-logo center">Led Strip Controller</a>
-                </div>
-            </nav>
+    <nav class="nav-extended navbar-fixed">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo center">Led Strip Controller</a>
         </div>
-        <div class="container row">
-            <div class="col s6" v-for="anim in animationList" :key="anim.id">
-                <div class="card waves-effect waves-block waves-light">
-                    <div class="card-image">
-                        <img :src="'svg/' + anim.identifier + '.svg'">
-                        <a class="btn-floating btn-large halfway-fab waves-effect waves-light red" :href="'javascript:openPopup(\'' + anim.identifier + '\')'"><i class="material-icons">add</i></a>
+        <div class="nav-content row">
+            <ul class="tabs tabs-transparent">
+                <li class="tab col s3"><a href="#tab2">Animations</a></li>
+                <li class="tab col s3"><a href="#tab1">Scenarios</a></li>
+                <li class="tab col s3"><a href="#tab3">White Palette</a></li>
+                <li class="tab col s3"><a class="active" href="#tab4">Color Palette</a></li>
+            </ul>
+        </div>
+    </nav>
+    <section class="main">
+        <div class="container">
+            <div id="tab1" class="col s12">
+                <div class="row">
+                    <div class="col s4" v-for="scene in scenario":key="scene.id">
+                        <div class="card">
+                            <div class="card-image">
+                                <img :src="'images/' + scene.file  + '.png'" class="responsive-img">
+                                <span class="card-title blue-text">{{ scene.title }}</span>
+                            </div>
+                            <div class="card-content">
+                                <p class="">{{ scene.description }}</p>
+                            </div>
+                            <div class="card-action">
+                                <a href="#" onclick="M.toast({html: 'Applied'})">Apply</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <span class="card-title">{{ anim.title }}</span>
+                </div>
+            </div>
+            <div id="tab2" class="col s12">
+                <div class="row">
+                    <div class="col s4" v-for="anim in animationList":key="anim.id">
+                        <div class="card waves-effect waves-block waves-light">
+                            <div class="card-image">
+                                <img :src="'svg/' + anim.identifier + '.svg'">
+                                <a class="btn-floating btn-large halfway-fab waves-effect waves-light red" :href="'javascript:openPopup(\'' + anim.identifier + '\')'"><i class="material-icons">add</i></a>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">{{ anim.title }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab3" class="col s12">
+                White Palette
+            </div>
+            <div id="tab4" class="col s12">
+                <div class="container">
+                    <div id="picker" class="col s12">
                     </div>
                 </div>
             </div>
         </div>
+        <div id="popup">
+            <div v-for="anim in animationList" :key="anim.id" :id="'animation-' + anim.identifier" class="modal modal-fixed-footer">
+                <form :id="'form-animation-' + anim.identifier">
+                    <div class="modal-content">
+                        <h4>{{ anim.title }}</h4>
+                        <p>{{ anim.description }}</p>
+                        <div v-for="item in anim.form">
+                            <p class="range-field" v-if="item.type == 'percent'">
+                                <input type="range" :name="item.name" :id="item.name" min="0" max="100" />
+                            </p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="modal-close waves-effect waves-green btn-flat">Apply</button>
+                        <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+                    </div>
+                    <input type="hidden" name="animation" :value="anim.identifier">
+                </form>
+            </div>
+        </div>
+    </section>
+    <!--
         <footer class="page-footer">
             <div class="container">
                 <div class="row">
@@ -60,33 +133,17 @@
                 </div>
             </div>
         </footer>
-        <div id="popup">
-            <div v-for="anim in animationList" :key="anim.id" :id="'animation-' + anim.identifier" class="modal modal-fixed-footer">
-                <form :id="'form-animation-' + anim.identifier">
-                    <div class="modal-content">
-                        <h4>{{ anim.title }}</h4>
-                        <p>{{ anim.description }}</p>
-                        <div v-for="item in anim.form">
-                            <p class="range-field" v-if="item.type == 'percent'">
-                                <input type="range" :name="item.name" :id="item.name" min="0" max="100" />
-                            </p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="modal-close waves-effect waves-green btn-flat">Apply</button>
-                        <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
-                    </div>
-                    <input type="hidden" name="animation" :value="anim.identifier">
-                </form>
-            </div>
-        </div>
-    </section>
+        -->
 
 
-    <!--JavaScript at end of body for optimized loading-->
+
+    <!-- Vue.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js"></script>
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="js/script.js"></script>
+    <!-- JQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
+    <!-- Custom Script-->
+    <script type="text/javascript" src="js/script.js"></script>
 </body>
 </html>
